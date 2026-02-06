@@ -1,84 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stanford Viennese Ball</title>
-  <style>
-@font-face {
-  font-family:Logo;
-  src:url(font/edwardianscriptitc.ttf) format('truetype');
-}
-@font-face {
-  font-family:EBGaramond;
-  font-style:italic;
-  font-weight: 400 800;
-  src:url(font/ebgaramond-italic.woff2) format('woff2');
-}
-@font-face {
-  font-family:EBGaramond;
-  font-style:normal;
-  font-weight: 400 800;
-  src:url(font/ebgaramond.woff2) format('woff2');
-}
-body { margin:1.5rem; }
-nav > a { color:black; text-decoration:none; }
-nav > a:hover { color:#007acc; text-decoration:none; }
-nav > a.active { font-weight:bold; }
-a { color:#007acc; }
-figcaption { font-style:italic; text-align:center; }
-img { max-width: 100%; }
-figure { margin: 0; }
-main > img { display:block; max-width:60%; margin:3rem auto; }
-h1 { margin:0 0 4rem; text-align:center; }
-h2 { margin:0 0 1rem; }
-main > hr { border:1px solid #ccc; border-width:1px 0 0; width:100px; margin:3rem auto; }
-main { margin:4rem 0 8rem; width:100%; max-width:900px; }
-body > figure { width:100%; max-width:1200px; }
-.icon { height:1em; margin:0 1ch 0 0; transform:translateY(.15em); }
-  </style>
-</head>
-<body style="font-family: EBGaramond; display:flex; flex-flow:column nowrap; align-items:center;">
-<div style="width:100%; max-width:1200px; margin: 4rem 0;">
-  <header style="display:flex; flex-flow:row wrap; align-items:center; row-gap:1rem;">
-    <div style="font-family:Logo; font-size:2.5rem; margin-right:3rem">Stanford Viennese Ball</div>
-    <div style="line-height:1rem; transform:translate(0, -4px)">
-      <div style="font-weight:bold">The 48<sup>th</sup> Annual Stanford Viennese Ball</div>
-      <div>February 27, 2026 — Hyatt Regency SFO</div>
-    </div>
-  </header>
-  <nav style="display:flex; flex-flow:row wrap; column-gap:2rem; row-gap:.5rem; margin:1.7rem 0 0;">
-    <a href="">Home</a>
-    <a href="#about">About</a>
-    <a href="#event-info">Event and Venue Info</a>
-    <a href="#austria-fortnight">Austria Fortnight Classes</a>
-    <a href="#parking">Parking &amp; Shuttles</a>
-    <a href="#dance-etiquette">Dance Etiquette</a>
-    <a href="#faq">FAQ</a>
-    <a href="#bon-bon-ball">Bon Bon Ball</a>
-  </nav>
-</div>
-<div id="content" style="display:none;"></div>
-<script>
-const content=document.getElementById('content');
-function navTo(e) {
-  const hash = window.location.hash;
-  const page = hash || '#home';
-  const name = `page/${page.substr(1)}.html`;
-  fetch(name).then(res => res.text()).then(text => {
-    document.querySelectorAll('a.active').forEach(a => a.classList.remove('active'));
-    document.querySelectorAll('a[href="' + hash + '"]').forEach(a => a.classList.add('active'));
-    let sib = content.nextSibling;
-    while (sib) {
-      const next = sib.nextSibling;
-      sib.remove();
-      sib = next;
-    }
-    content.insertAdjacentHTML('afterend', text);
-  });
-}
-window.addEventListener('hashchange', navTo);
-navTo();
-</script>
-</body>
-</html>
+{% include head.html page="." %}
+<figure>
+  <img src="img/opening.jpg" alt="performance by the Opening Committee" />
+  <figcaption>Performance by the Opening Committee.<figcaption>
+</figure>
+<main>
+  <h1>Join us at the 48<sup>th</sup> annual Stanford Viennese Ball on Friday, February 27, 2026, at the Hyatt Regency SFO in Burlingame!</h1>
+  <img src="2026/poster.png" alt="illustration of a man and woman dancing in black and white" />
+
+
+<style>
+.links > a:not(:last-child) { padding-right:2ch; margin-right:2ch; border-right:1px solid #000; }
+</style>
+<p class="links" style="font-size:1.2rem; display:flex; flex-flow:row wrap; row-gap:.5rem; justify-content:center; margin:2rem 0">
+  <a href="https://www.eventbrite.com/e/stanford-viennese-ball-2026-tickets-1981665710485"><img class="icon" src="img/ticket.png">Tickets</a>
+  <a href="2026/vball.ics"><img class="icon" src="img/calendar.png">Add to iPhone</a>
+  <a href="https://calendar.google.com/calendar/u/0/r/eventedit?text=Stanford+Viennese+Ball&dates=20260227T193000/20260228T020000&location=Hyatt+Regency+San+Francisco+Airport&ctz=America/Los_Angeles"><img class="icon" src="img/calendar.png">Add to Google Calendar</a>
+</p>
+
+  <p>Let us bring you to the city of Vienna for an evening, where debutant(e)s in sharp tuxedos and flowing white gowns leap across the dance floor, where you waltz to live music and marvel at the soaring aerials of swing dance performers. Dance all night, eat merrily, and make endless memories with friends. Experience a centuries-old Austrian tradition—all without leaving the Bay Area.
+  <p>The Stanford Viennese Ball is run by the Viennese Ball Steering Committee, a volunteer-based student group. We’re really grateful for everything this fantastic team has done so far and we can’t wait to get this event running again! Please feel free to use the website to learn about our fall and winter quarter events, Fall Ball and Little Big Dance, the free social dance lessons that we offer before Viennese Ball, social dance etiquette, and other details like venue, transportation, and event schedule as they are updated.
+
+  <p>Purchase tickets here: <a href="https://linktr.ee/svball">https://linktr.ee/svball</a>
+  <p>Follow us on social media!
+  <p>
+    <a href="https://www.facebook.com/vienneseball">Facebook</a> |
+    <a href="https://www.instagram.com/stanfordvienneseball">Instagram</a> |
+    <a href="https://twitter.com/vienneseball">Twitter</a>
+  </p>
+  <img style="width:240px; margin-top:4rem;" src="img/vienna.png" alt="logo of the city of Vienna" />
+</main>
+{% include foot.html %}

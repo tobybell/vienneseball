@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ site.data.nav[include.page] }} | Viennese Ball</title>
+  <style>
+@font-face {
+  font-family:Logo;
+  src:url(font/edwardianscriptitc.ttf) format('truetype');
+}
+@font-face {
+  font-family:EBGaramond;
+  font-style:italic;
+  font-weight: 400 800;
+  src:url(font/ebgaramond-italic.woff2) format('woff2');
+}
+@font-face {
+  font-family:EBGaramond;
+  font-style:normal;
+  font-weight: 400 800;
+  src:url(font/ebgaramond.woff2) format('woff2');
+}
+body { margin:1.5rem; }
+nav > a { color:black; text-decoration:none; }
+nav > a:hover { color:#007acc; text-decoration:none; }
+nav > a.active { font-weight:bold; }
+a { color:#007acc; }
+figcaption { font-style:italic; text-align:center; }
+img { max-width: 100%; }
+figure { margin: 0; }
+main > img { display:block; max-width:60%; margin:3rem auto; }
+h1 { margin:0 0 4rem; text-align:center; }
+h2 { margin:0 0 1rem; }
+main > hr { border:1px solid #ccc; border-width:1px 0 0; width:100px; margin:3rem auto; }
+main { margin:4rem 0 8rem; width:100%; max-width:900px; }
+body > figure { width:100%; max-width:1200px; }
+.icon { height:1em; margin:0 1ch 0 0; transform:translateY(.15em); }
+  </style>
+</head>
+<body style="font-family: EBGaramond; display:flex; flex-flow:column nowrap; align-items:center;">
+<div style="width:100%; max-width:1200px; margin: 4rem 0;">
+  <header style="display:flex; flex-flow:row wrap; align-items:center; row-gap:1rem;">
+    <div style="font-family:Logo; font-size:2.5rem; margin-right:3rem">Stanford Viennese Ball</div>
+    <div style="line-height:1rem; transform:translate(0, -4px)">
+      <div style="font-weight:bold">The 48<sup>th</sup> Annual Stanford Viennese Ball</div>
+      <div>February 27, 2026 — Hyatt Regency SFO</div>
+    </div>
+  </header>
+  <nav style="display:flex; flex-flow:row wrap; column-gap:2rem; row-gap:.5rem; margin:1.7rem 0 0;">
+    {% for item in site.data.nav %}
+    <a {% if include.page == item[0] %}class="active"{% endif %} href="{{ item[0] }}">{{ item[1] }}</a>
+    {% endfor %}
+  </nav>
+</div>
