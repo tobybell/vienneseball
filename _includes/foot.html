@@ -1,2 +1,10 @@
+<footer>
+<nav>
+{% for item in site.data.nav %}
+<a {% if include.page == item[0] %}class="active"{% endif %} href="{{ item[0] }}">{{ item[1] }}</a>
+{% endfor %}
+</nav>
+</footer>
+<div class="foot">Stanford Viennese Ball</div>
 </body>
 </html>

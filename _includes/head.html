@@ -38,6 +38,17 @@ main { margin:4rem 0 8rem; width:100%; max-width:900px; }
 body > figure { width:100%; max-width:1200px; }
 body > figure img { width:100%; height:auto; }
 .icon { height:1em; margin:0 1ch 0 0; transform:translateY(.15em); }
+body > footer { width:100%; max-width:1200px; border:solid #ccc; border-width: 1px 0; }
+body > footer > nav { display:flex; flex-flow:row wrap; justify-content:center; padding-bottom:.5rem; }
+body > footer > nav > a { border:0 solid #ddd; padding: 0 .75rem; margin-top:.5rem; }
+body > footer > nav > a:not(:last-child) { border-width:0 1px 0 0; }
+@media (max-width: 800px) {
+  body > footer > nav { flex-flow:column nowrap; padding-bottom:0; }
+  body > footer > nav > a { padding: .5rem; margin-top:0; }
+  body > footer > nav > a:not(:last-child) { border-width:0 0 1px; }
+}
+.foot { display:flex; align-items:center; gap:1rem; opacity:.5; margin:1.5rem 0 0; }
+.foot::before { content:''; display:block; width:32px; height:32px; background:url(img/logo.png) no-repeat center/contain; }
   </style>
 </head>
 <body style="font-family: EBGaramond; display:flex; flex-flow:column nowrap; align-items:center;">
