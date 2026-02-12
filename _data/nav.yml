@@ -1,8 +1,8 @@
-'.': Home
-about: About
-event-info: Event and Venue Info
-austria-fortnight: Austria Fortnight Classes
-parking: Parking & Shuttles
-dance-etiquette: Dance Etiquette
-faq: FAQ
-bon-bon-ball: Bon Bon Ball
+/: [., Home]
+/about.html: [about, About]
+/event-info.html: [event-info, Event & Venue]
+/austria-fortnight.html: [austria-fortnight, Austria Fortnight Classes]
+/parking.html: [parking, Parking & Shuttles]
+/dance-etiquette.html: [dance-etiquette, Dance Etiquette]
+/faq.html: [faq, FAQ]
+/bon-bon-ball.html: [bon-bon-ball, Bon Bon Ball]

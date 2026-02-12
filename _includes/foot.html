@@ -1,7 +1,7 @@
 <footer>
 <nav>
 {% for item in site.data.nav %}
-<a title="{{page.url}}" {% if include.page == item[0] %}class="active"{% endif %} href="{{ item[0] }}">{{ item[1] }}</a>
+<a {% if page.url == item[0] %}class="active"{% endif %} href="{{item[1][0]}}">{{item[1][1]}}</a>
 {% endfor %}
 </nav>
 </footer>
