@@ -19,20 +19,73 @@
 <h2>Austria Fortnight Schedule</h2>
 
 <style>
-.schedule th { text-decoration:underline; }
-.schedule td { padding-top:1rem; }
-.schedule td, .schedule th { text-align:left; vertical-align:top; }
-.schedule td:not(:first-child),
-.schedule th:not(:first-child) { padding-left:1rem; }
-.schedule td:first-child { font-weight:bold; }
+/* Make the schedule usable on phones (scroll instead of squish) */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+/* Table grid + spacing */
+.schedule {
+  width: 100%;
+  min-width: 760px;          /* forces horizontal scroll on phones */
+  border-collapse: collapse; /* enables clean grid lines */
+  border: 1px solid #ddd;
+}
+
+.schedule th,
+.schedule td {
+  border: 1px solid #ddd;    /* grid lines */
+  text-align: left;
+  vertical-align: top;
+  padding: 0.75rem 0.9rem;
+}
+
+.schedule th {
+  background: #fafafa;
+  font-weight: 700;
+  text-decoration: none;     /* header row styling replaces underline */
+}
+
+/* Bold date column */
+.schedule td:first-child {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Slight zebra striping for readability */
+.schedule tbody tr:nth-child(even) td {
+  background: #fcfcfc;
+}
+
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .schedule th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  .schedule th,
+  .schedule td {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem;
+  }
+}
 </style>
+
+<div class="table-scroll">
 <table class="schedule">
+<thead>
 <tr>
   <th>Date</th>
   <th>Beginner Lesson</th>
   <th>Intermediate / Advanced Lesson</th>
   <th>Social Dancing Practice</th>
 </tr>
+</thead>
+<tbody>
 <tr>
   <td>2/13</td>
   <td>7:30–9 PM: Beginner Rotary Waltz<br>Roble Gym R115<br><a href="https://www.eventbrite.com/e/stanford-bon-bon-ball-2026-tickets-1981279619677" target="_blank" rel="noopener noreferrer">Bon Bon Ball Ticket required</a></td>
@@ -72,7 +125,7 @@
 <tr>
   <td>2/19</td>
   <td>
-    7–9 PM: Beginner Bachata <br>
+    7–9 PM: Beginner Bachata<br>
     Rains Hacienda<br>
     Brando Miranda &amp; Lorena<br>
     9–10:30 PM: Bachata Social (Following the bachata class)<br>
@@ -132,10 +185,13 @@
   <td><a href="https://www.eventbrite.com/e/stanford-viennese-ball-2026-tickets-1981665710485" target="_blank" rel="noopener noreferrer">Stanford Viennese Ball!</a></td>
   <td><a href="https://www.eventbrite.com/e/stanford-viennese-ball-2026-tickets-1981665710485" target="_blank" rel="noopener noreferrer">Stanford Viennese Ball!</a></td>
 </tr>
+</tbody>
 </table>
+</div>
 
 <hr>
 <h2>Locations</h2>
+
 <style>
 .locations { width:100%; max-width:40rem; }
 .locations img { width:100%; }
@@ -144,49 +200,50 @@
 .locations td { vertical-align:top; padding-top:1rem; }
 .locations td:not(:first-child) { padding-left:1rem; }
 </style>
+
 <table class="locations">
 <tr>
   <td>Elliott Program Center</td>
   <td><a href="https://maps.app.goo.gl/iJ9FX9rtdd3YxL886" target="_blank" rel="noopener noreferrer">Google Maps</a></td>
-  <td><img src="img/location-epc.jpg" /></td>
+  <td><img src="img/location-epc.jpg" alt="Elliott Program Center location" /></td>
 </tr>
 <tr>
   <td>EVGR B Yoga Room<br>(Room 140)</td>
   <td><a href="https://maps.app.goo.gl/hwzPkmsr29uCzvD17" target="_blank" rel="noopener noreferrer">Google Maps</a></td>
-  <td><img src="img/location-evgrb.jpg" /></td>
+  <td><img src="img/location-evgrb.jpg" alt="EVGR B Yoga Room location" /></td>
 </tr>
 <tr>
   <td>EVGR C Dance Studio<br>(Room 153)</td>
   <td><a href="https://maps.app.goo.gl/UmcmfBSHTAxqB2gy7" target="_blank" rel="noopener noreferrer">Google Maps</a></td>
-  <td><img src="img/location-evgrc.jpg" /></td>
+  <td><img src="img/location-evgrc.jpg" alt="EVGR C Dance Studio location" /></td>
 </tr>
 <tr>
   <td>GCC Havana</td>
   <td><a href="https://maps.app.goo.gl/7JmgDaCFReXqVmAK9" target="_blank" rel="noopener noreferrer">Google Maps</a></td>
-  <td><img src="img/location-havana.jpg" /></td>
+  <td><img src="img/location-havana.jpg" alt="GCC Havana location" /></td>
 </tr>
 <tr>
   <td>Rains Hacienda</td>
   <td><a href="https://maps.app.goo.gl/NgcWLjxzMZJz7XQg8" target="_blank" rel="noopener noreferrer">Google Maps</a></td>
-  <td><img src="img/location-hacienda.jpg" /></td>
+  <td><img src="img/location-hacienda.jpg" alt="Rains Hacienda location" /></td>
 </tr>
 <tr>
   <td>Roble Gym<br>R113<br>R114<br>R115</td>
   <td><a href="https://maps.app.goo.gl/UBCv7rU7rYZKrFFm9" target="_blank" rel="noopener noreferrer">Google Maps</a></td>
-  <td><img src="img/location-r113.jpg" /></td>
-</tr>
+  <td><img src="img/location-r113.jpg" alt="Roble Gym location" /></td>
 </tr>
 </table>
 
 <hr>
 <h3>What does beginner or intermediate mean?</h3>
-<p>Beginner classes will take you from the basic steps of the dance style through some basic moves and allow you to get in lots of practice! Intermediate classes will go more quickly through the basics and move on to teaching different variations of the style to add to your repertoire. All classes are open to everyone regardless of experience – excited to see you there!
+<p>Beginner classes will take you from the basic steps of the dance style through some basic moves and allow you to get in lots of practice! Intermediate classes will go more quickly through the basics and move on to teaching different variations of the style to add to your repertoire. All classes are open to everyone regardless of experience – excited to see you there!</p>
 
 <hr>
 <h2>Resources</h2>
-<p>Here are some useful links to recap and learn more!
-<p><a href="dance-etiquette">Dance Etiquette</a>
-<p style="margin-bottom:.25rem">Library of Dance Demo Videos:
+<p>Here are some useful links to recap and learn more!</p>
+<p><a href="dance-etiquette">Dance Etiquette</a></p>
+
+<p style="margin-bottom:.25rem">Library of Dance Demo Videos:</p>
 <ul style="margin:0">
   <li><a href="https://www.libraryofdance.org/dances/bachata" target="_blank" rel="noopener noreferrer">Bachata</a></li>
   <li><a href="https://www.libraryofdance.org/dances/cha-cha" target="_blank" rel="noopener noreferrer">Cha-Cha-Cha</a></li>
@@ -199,11 +256,11 @@
   <li><a href="https://www.libraryofdance.org/dances/west-coast-swing" target="_blank" rel="noopener noreferrer">West Coast Swing (WCS)</a></li>
 </ul>
 
-<p style="margin-bottom:.25rem">Recap Videos:
+<p style="margin-bottom:.25rem">Recap Videos:</p>
 <ul style="margin:0">
-  <li><a href="https://drive.google.com/drive/folders/1OH4LThmvLWagKvNrEVzEKYnOXxSgMkfM" target="_blank" rel="noopener noreferrer">2025 (Google Drive)</a>
-  <li><a href="https://drive.google.com/drive/folders/1vA0WIVyBygclUdh-3zBDZMtQ5ld0a-Eh" target="_blank" rel="noopener noreferrer">2024 (Google Drive)</a>
-  <li><a href="https://www.facebook.com/events/547137755762841" target="_blank" rel="noopener noreferrer">2020 (Facebook)</a>
+  <li><a href="https://drive.google.com/drive/folders/1OH4LThmvLWagKvNrEVzEKYnOXxSgMkfM" target="_blank" rel="noopener noreferrer">2025 (Google Drive)</a></li>
+  <li><a href="https://drive.google.com/drive/folders/1vA0WIVyBygclUdh-3zBDZMtQ5ld0a-Eh" target="_blank" rel="noopener noreferrer">2024 (Google Drive)</a></li>
+  <li><a href="https://www.facebook.com/events/547137755762841" target="_blank" rel="noopener noreferrer">2020 (Facebook)</a></li>
 </ul>
 
 </main>
