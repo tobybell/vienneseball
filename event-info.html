@@ -31,8 +31,9 @@
 <hr>
 <h2>Evening Schedule</h2>
 
+
 <style>
-.schedule { display:grid;position:relative;grid-template-columns:64px 1.5% 1fr;grid-auto-flow:column }
+.schedule { display:grid;position:relative;grid-template-columns:64px 1.5% 1fr;grid-auto-flow:column;min-width:400px }
 .schedule > span { grid-column:3/4;height:2px;transform:translateY(17px);background:#000; }
 .schedule > time { text-align:right }
 .schedule b { position:absolute;top:calc(36px * (var(--row) - 1)) }
@@ -44,6 +45,7 @@
 .schedule > div { grid-column:3/4;grid-row:1/24;min-width:0;position:relative; }
 .schedule i { min-width:0;flex:1 0 0; }
 </style>
+<div style="overflow-x:scroll">
 <div class="schedule" style="margin:2rem 0 1.5ch">
 <div style="display:flex;font-size:1.5rem;align-items:center">
 <i>Waltz Room</i>
@@ -110,6 +112,7 @@
 <b class="wcs" style="--row:17">West Coast Swing Contest</b>
 <b class="wcs post" style="--row:19">Birthday Dance</b>
 <b class="wcs" style="--row:22">Last West Coast Swing</b>
+</div>
 </div>
 </div>
 
