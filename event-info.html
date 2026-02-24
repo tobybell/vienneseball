@@ -30,7 +30,91 @@
 
 <hr>
 <h2>Evening Schedule</h2>
-<p>Coming Soon!
+
+
+<style>
+.schedule { display:grid;position:relative;grid-template-columns:64px 1.5% 1fr;grid-auto-flow:column;min-width:500px }
+.schedule > span { grid-column:3/4;height:2px;transform:translateY(17px);background:#000; }
+.schedule > time { text-align:right }
+.schedule b { position:absolute;top:calc(36px * (var(--row) - 1)) }
+.schedule .waltz { left:0;text-align:left; }
+.schedule .pre { margin-top:-12px }
+.schedule .post { margin-top:12px }
+.schedule .swing { left:50%;transform:translateX(-50%); }
+.schedule .wcs { right:0; }
+.schedule > div { grid-column:3/4;grid-row:1/24;min-width:0;position:relative; }
+.schedule i { min-width:0;flex:1 0 0; }
+</style>
+<div style="overflow-x:scroll">
+<div class="schedule" style="margin:2rem 0 1.5ch">
+<div style="display:flex;font-size:1.5rem;align-items:center">
+<i>Waltz Room</i>
+<i style="text-align:center">Swing Room</i>
+<i style="text-align:right">Latin & Contemporary Room</i>
+</div>
+</div>
+<div class="schedule" style="line-height:36px;grid-template-rows:repeat(23,36px);white-space:nowrap">
+<time>8:30 PM</time>
+<time>8:45 PM</time>
+<time>9:00 PM</time>
+<time>9:15 PM</time>
+<time>9:30 PM</time>
+<time>9:45 PM</time>
+<time>10:00 PM</time>
+<time>10:15 PM</time>
+<time>10:30 PM</time>
+<time>10:45 PM</time>
+<time>11:00 PM</time>
+<time>11:15 PM</time>
+<time>11:30 PM</time>
+<time>11:45 PM</time>
+<time>12:00 AM</time>
+<time>12:15 AM</time>
+<time>12:30 AM</time>
+<time>12:45 AM</time>
+<time>1:00 AM</time>
+<time>1:15 AM</time>
+<time>1:30 AM</time>
+<time>1:45 AM</time>
+<time>2:00 AM</time>
+<span style="grid-row:3"></span>
+<span style="grid-row:7"></span>
+<span style="grid-row:11"></span>
+<span style="grid-row:15"></span>
+<span style="grid-row:19"></span>
+<span style="grid-row:23"></span>
+<div>
+<b class="waltz" style="--row:1">Opening Ceremony</b>
+<b class="waltz" style="--row:4">First Waltz</b>
+<b class="waltz" style="--row:6">Group Photo</b>
+<b class="waltz pre" style="--row:7">Academy of Danse Libre</b>
+<b class="waltz post" style="--row:7">Cross-Step Waltz Mixer</b>
+<b class="waltz pre" style="--row:11">Bohemian National Polka</b>
+<b class="waltz" style="--row:12">Cross-Step Waltz Contest</b>
+<b class="waltz pre" style="--row:14">Pop Waltz Set Begins</b>
+<b class="waltz post" style="--row:14">Birthday Waltz</b>
+<b class="waltz post" style="--row:15">Viennese Midnight Quadrille</b>
+<b class="waltz post" style="--row:19">Romany Polka</b>
+<b class="waltz pre" style="--row:19;margin-top:30px">Rotary Waltz Contest</b>
+<b class="waltz pre" style="--row:23">Last Waltz</b>
+<b class="swing" style="--row:5">First Swing</b>
+<b class="swing post" style="--row:7">Shim Sham</b>
+<b class="swing" style="--row:8">Swingtime</b>
+<b class="swing" style="--row:9">Swing Contest</b>
+<b class="swing" style="--row:13">Academy of Danse Libre</b>
+<b class="swing" style="--row:18">Birthday Jam</b>
+<b class="swing pre" style="--row:19">Irish Ceili Mixer</b>
+<b class="swing" style="--row:22">Last Swing</b>
+<b class="wcs" style="--row:5">First West Coast Swing</b>
+<b class="wcs" style="--row:10">Tango Club</b>
+<b class="wcs pre" style="--row:11">Stanford Ballroom</b>
+<b class="wcs" style="--row:16">Salseros</b>
+<b class="wcs" style="--row:17">West Coast Swing Contest</b>
+<b class="wcs post" style="--row:19">Birthday Dance</b>
+<b class="wcs" style="--row:22">Last West Coast Swing</b>
+</div>
+</div>
+</div>
 
 </main>
 {% include foot.html %}
