@@ -18,18 +18,50 @@ View or download the full program for the Viennese Ball:
 
 <h2>View the Program</h2>
 
-<p>
-<a href="/files/program26.pdf" target="_blank"><strong>Open / Download Program (PDF)</strong></a>
+<!-- Always show a direct link (best on mobile) -->
+<p class="pdf-mobile">
+  <a class="pdf-btn" href="/files/program26.pdf" target="_blank" rel="noopener">
+    Open Program (PDF)
+  </a>
 </p>
 
-<iframe
-  src="/files/program26.pdf"
-  width="100%"
-  height="900"
-  style="border:1px solid #ccc; border-radius:8px;"
-  loading="lazy">
-</iframe>
+<!-- Desktop embed -->
+<div class="pdf-embed" style="margin-top: 12px;">
+  <p>
+    <a href="/files/program26.pdf" target="_blank" rel="noopener"><strong>Open / Download Program (PDF)</strong></a>
+  </p>
+
+  <iframe
+    src="/files/program26.pdf"
+    width="100%"
+    height="900"
+    style="border:1px solid #ccc; border-radius:8px;"
+    loading="lazy">
+  </iframe>
+</div>
 
 </main>
+
+<style>
+  /* Desktop shows embedded PDF */
+  .pdf-embed { display: block; }
+
+  /* Mobile shows button instead */
+  .pdf-mobile { display: none; }
+
+  @media (max-width: 768px) {
+    .pdf-embed { display: none; }
+    .pdf-mobile { display: block; }
+  }
+
+  .pdf-btn {
+    display: inline-block;
+    padding: 14px 18px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>
 
 {% include foot.html %}
