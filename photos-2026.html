@@ -131,7 +131,25 @@
     opacity: 0.85;
   }
 
-  .thumbnail-grid {
+  .thumb-section {
+    max-width: 1250px;
+    margin: 0 auto;
+  }
+
+  .thumb-viewport {
+    position: relative;
+    width: 100%;
+  }
+
+  .thumb-spacer {
+    width: 100%;
+  }
+
+  .thumb-layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 12px;
@@ -146,8 +164,8 @@
     padding: 0;
     appearance: none;
     -webkit-appearance: none;
-    content-visibility: auto;
-    contain-intrinsic-size: 110px;
+    width: 100%;
+    height: 110px;
   }
 
   .thumbnail.active {
@@ -160,7 +178,7 @@
 
   .thumbnail img {
     width: 100%;
-    height: 110px;
+    height: 100%;
     object-fit: cover;
     display: block;
     background: #1b1b1b;
@@ -176,7 +194,7 @@
       padding: 8px 12px;
     }
 
-    .thumbnail img {
+    .thumbnail {
       height: 90px;
     }
   }
@@ -208,7 +226,12 @@
     </div>
   </div>
 
-  <div id="thumbnails" class="thumbnail-grid"></div>
+  <section class="thumb-section">
+    <div class="thumb-viewport" id="thumbViewport">
+      <div class="thumb-spacer" id="thumbSpacer"></div>
+      <div class="thumb-layer" id="thumbLayer"></div>
+    </div>
+  </section>
 </main>
 
 <script>
@@ -222,21 +245,41 @@
   }
 
   const mainPhoto = document.getElementById("mainPhoto");
-  const thumbnails = document.getElementById("thumbnails");
   const photoCounter = document.getElementById("photoCounter");
   const openBtn = document.getElementById("openBtn");
   const photoCarousel = document.getElementById("photoCarousel");
   const loadingText = document.getElementById("loadingText");
+  const thumbViewport = document.getElementById("thumbViewport");
+  const thumbSpacer = document.getElementById("thumbSpacer");
+  const thumbLayer = document.getElementById("thumbLayer");
 
   let currentIndex = 0;
   let currentLoadToken = 0;
 
-  function updateActiveThumbnail(index) {
-    const active = document.querySelector(".thumbnail.active");
-    if (active) active.classList.remove("active");
+  let columns = 1;
+  let rowHeight = 122; // approx 110px thumb + 12px gap
+  let totalRows = 0;
+  let renderedStartRow = -1;
+  let renderedEndRow = -1;
 
-    const nextActive = document.querySelector(`.thumbnail[data-index="${index}"]`);
-    if (nextActive) nextActive.classList.add("active");
+  function updateGridMetrics() {
+    const viewportWidth = thumbViewport.clientWidth;
+    const minCardWidth = 140;
+    const gap = 12;
+
+    columns = Math.max(1, Math.floor((viewportWidth + gap) / (minCardWidth + gap)));
+
+    const mobile = window.innerWidth <= 768;
+    rowHeight = mobile ? 102 : 122;
+
+    totalRows = Math.ceil(totalPhotos / columns);
+    thumbSpacer.style.height = `${totalRows * rowHeight}px`;
+  }
+
+  function preloadOne(src) {
+    const img = new Image();
+    img.decoding = "async";
+    img.src = src;
   }
 
   function showPhoto(index) {
@@ -273,53 +316,111 @@
 
     photoCounter.textContent = `Photo ${index + 1} of ${photos.length}`;
     openBtn.href = src;
-    updateActiveThumbnail(index);
+
+    preloadOne(photos[(index + 1) % photos.length]);
+    preloadOne(photos[(index - 1 + photos.length) % photos.length]);
+
+    updateVisibleThumbnails();
   }
 
   function changePhoto(direction) {
     showPhoto(currentIndex + direction);
   }
 
-  function buildThumbnails() {
-    const fragment = document.createDocumentFragment();
+  function createThumbnail(index) {
+    const button = document.createElement("button");
+    button.className = "thumbnail";
+    if (index === currentIndex) button.classList.add("active");
+    button.type = "button";
+    button.dataset.index = index;
+    button.setAttribute("aria-label", `Show photo ${index + 1}`);
 
-    for (let index = 0; index < thumbs.length; index++) {
-      const button = document.createElement("button");
-      button.className = "thumbnail";
-      button.type = "button";
-      button.dataset.index = index;
-      button.setAttribute("aria-label", `Show photo ${index + 1}`);
+    const img = document.createElement("img");
+    img.src = thumbs[index];
+    img.alt = `Thumbnail ${index + 1}`;
+    img.decoding = "async";
+    img.loading = "eager";
+    img.fetchPriority = "low";
 
-      const img = document.createElement("img");
-      img.src = thumbs[index];
-      img.alt = `Thumbnail ${index + 1}`;
-      img.loading = "lazy";
-      img.decoding = "async";
-      img.fetchPriority = "low";
+    button.appendChild(img);
 
-      button.appendChild(img);
-
-      button.addEventListener("click", () => {
-        showPhoto(index);
-        photoCarousel.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+    button.addEventListener("click", () => {
+      showPhoto(index);
+      photoCarousel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
       });
+    });
 
-      fragment.appendChild(button);
+    return button;
+  }
+
+  function renderRows(startRow, endRow) {
+    if (startRow === renderedStartRow && endRow === renderedEndRow) return;
+
+    renderedStartRow = startRow;
+    renderedEndRow = endRow;
+
+    thumbLayer.innerHTML = "";
+    thumbLayer.style.top = `${startRow * rowHeight}px`;
+
+    const fragment = document.createDocumentFragment();
+    const startIndex = startRow * columns;
+    const endIndex = Math.min(totalPhotos, (endRow + 1) * columns);
+
+    for (let i = startIndex; i < endIndex; i++) {
+      fragment.appendChild(createThumbnail(i));
     }
 
-    thumbnails.innerHTML = "";
-    thumbnails.appendChild(fragment);
+    thumbLayer.appendChild(fragment);
   }
+
+  function updateVisibleThumbnails() {
+    updateGridMetrics();
+
+    const viewportTop = window.scrollY;
+    const viewportBottom = viewportTop + window.innerHeight;
+
+    const rect = thumbViewport.getBoundingClientRect();
+    const sectionTop = rect.top + window.scrollY;
+
+    const relativeTop = Math.max(0, viewportTop - sectionTop);
+    const relativeBottom = Math.max(0, viewportBottom - sectionTop);
+
+    const bufferRows = 3;
+    const startRow = Math.max(0, Math.floor(relativeTop / rowHeight) - bufferRows);
+    const endRow = Math.min(
+      totalRows - 1,
+      Math.floor(relativeBottom / rowHeight) + bufferRows
+    );
+
+    renderRows(startRow, endRow);
+  }
+
+  let scheduled = false;
+  function scheduleUpdate() {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      scheduled = false;
+      updateVisibleThumbnails();
+    });
+  }
+
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", () => {
+    renderedStartRow = -1;
+    renderedEndRow = -1;
+    scheduleUpdate();
+  });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") changePhoto(-1);
     if (event.key === "ArrowRight") changePhoto(1);
   });
 
-  buildThumbnails();
+  updateGridMetrics();
+  updateVisibleThumbnails();
   showPhoto(0);
 </script>
 
