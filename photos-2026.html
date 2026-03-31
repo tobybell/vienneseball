@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photos 2026</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+    }
+
+    .page-container {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 30px 20px 50px;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 12px 0;
+      font-size: 2.2rem;
+    }
+
+    .note {
+      text-align: center;
+      color: #ccc;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .save-instruction {
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      border-radius: 12px;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .main-image-wrap {
+      width: 100%;
+      height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      position: relative;
+    }
+
+    #mainPhoto {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: opacity 0.12s ease;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      border: none;
+      font-size: 2rem;
+      padding: 10px 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      z-index: 5;
+    }
+
+    .prev { left: 12px; }
+    .next { right: 12px; }
+
+    .photo-meta {
+      text-align: center;
+      padding: 10px;
+      color: #ddd;
+    }
+
+    .download-wrap {
+      text-align: center;
+      padding: 15px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background: #fff;
+      color: #111;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin: 5px;
+    }
+
+    .thumbnail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .thumbnail {
+      border: 2px solid transparent;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #222;
+      cursor: pointer;
+    }
+
+    .thumbnail.active { border-color: #fff; }
+
+    .thumbnail img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-container">
+
+    <h1>Photos 2026</h1>
+
+    <p class="note">Browse event photos from 2026.</p>
+    <p class="save-instruction">
+      To save an individual photo: open it, then right-click → "Save Image As..."
+    </p>
+
+    <div class="carousel-container" id="photoCarousel">
+
+      <button class="carousel-btn prev" onclick="changePhoto(-1)">&#10094;</button>
+      <button class="carousel-btn next" onclick="changePhoto(1)">&#10095;</button>
+
+      <div class="main-image-wrap">
+        <img id="mainPhoto" src="" alt="Photo">
+      </div>
+
+      <div id="photoCounter" class="photo-meta"></div>
+
+      <div class="download-wrap">
+        <a id="openBtn" class="download-btn" href="" target="_blank">
+          Open Full Photo
+        </a>
+
+        <a class="download-btn" href="photos-26.zip" download>
+          Download All Photos
+        </a>
+      </div>
+
+    </div>
+
+    <div id="thumbnails" class="thumbnail-grid"></div>
+
+  </div>
+
+  <script>
+    const totalPhotos = 621;
+    const photos = [];
+    const thumbs = [];
+
+    for (let i = 1; i <= totalPhotos; i++) {
+      photos.push(`photos-26/photo${i}.jpg`);
+      thumbs.push(`photos-26-thumbs/photo${i}.jpg`);
+    }
+
+    const mainPhoto = document.getElementById("mainPhoto");
+    const thumbnails = document.getElementById("thumbnails");
+    const photoCounter = document.getElementById("photoCounter");
+    const openBtn = document.getElementById("openBtn");
+    const photoCarousel = document.getElementById("photoCarousel");
+
+    let currentIndex = 0;
+
+    function showPhoto(index) {
+      if (index < 0) index = photos.length - 1;
+      if (index >= photos.length) index = 0;
+
+      currentIndex = index;
+      const src = photos[index];
+
+      mainPhoto.src = src;
+      photoCounter.textContent = `Photo ${index + 1} of ${photos.length}`;
+      openBtn.href = src;
+
+      document.querySelectorAll(".thumbnail").forEach(el => el.classList.remove("active"));
+      document.querySelectorAll(".thumbnail")[index].classList.add("active");
+    }
+
+    function changePhoto(direction) {
+      showPhoto(currentIndex + direction);
+    }
+
+    function buildThumbnails() {
+      const fragment = document.createDocumentFragment();
+
+      thumbs.forEach((src, index) => {
+        const div = document.createElement("div");
+        div.className = "thumbnail";
+
+        const img = document.createElement("img");
+        img.src = src;
+
+        div.appendChild(img);
+
+        div.addEventListener("click", () => {
+          showPhoto(index);
+          photoCarousel.scrollIntoView({ behavior: "smooth" });
+        });
+
+        fragment.appendChild(div);
+      });
+
+      thumbnails.appendChild(fragment);
+    }
+
+    buildThumbnails();
+    showPhoto(0);
+  </script>
+
+</body>
+</html>
