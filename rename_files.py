@@ -10,7 +10,7 @@ files = [f for f in os.listdir(folder) if not f.startswith(".")]
 files.sort()
 
 # rename files
-for i, filename in enumerate(files, start=1):
+for i, filename in enumerate(files, start=622):
     old_path = os.path.join(folder, filename)
 
     # keep original file extension

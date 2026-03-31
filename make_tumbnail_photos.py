@@ -6,7 +6,7 @@ thumb_folder = "photos-26-thumbs"
 
 os.makedirs(thumb_folder, exist_ok=True)
 
-for i in range(1, 622):
+for i in range(622, 1515):
     filename = f"photo{i}.jpg"
     src_path = os.path.join(full_folder, filename)
     dst_path = os.path.join(thumb_folder, filename)
