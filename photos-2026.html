@@ -1,357 +1,326 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Photos 2026</title>
-  <style>
-    * { box-sizing: border-box; }
+---
+---
+{% include head.html %}
 
-    html { scroll-behavior: smooth; }
+<style>
+  * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-    }
+  .page-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 30px 20px 50px;
+  }
 
-    .page-container {
-      max-width: 1250px;
-      margin: 0 auto;
-      padding: 30px 20px 50px;
-    }
+  .page-container h1 {
+    text-align: center;
+    margin: 0 0 12px 0;
+    font-size: 2.2rem;
+  }
 
-    h1 {
-      text-align: center;
-      margin: 0 0 12px 0;
-      font-size: 2.2rem;
-    }
+  .note {
+    text-align: center;
+    color: #666;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
 
-    .note {
-      text-align: center;
-      color: #ccc;
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-    }
+  .save-instruction {
+    text-align: center;
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
 
-    .save-instruction {
-      text-align: center;
-      color: #aaa;
-      font-size: 0.9rem;
-      margin-bottom: 20px;
-    }
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto 30px;
+    border-radius: 12px;
+    background: #000;
+    overflow: hidden;
+  }
 
-    .carousel-container {
-      position: relative;
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto 30px;
-      border-radius: 12px;
-      background: #000;
-      overflow: hidden;
-    }
+  .main-image-wrap {
+    width: 100%;
+    height: 650px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    position: relative;
+  }
 
+  #mainPhoto {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #000;
+    opacity: 1;
+    transition: opacity 0.15s ease;
+  }
+
+  #mainPhoto.loading {
+    opacity: 0.35;
+  }
+
+  .loading-text {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    display: none;
+  }
+
+  .loading-text.show {
+    display: block;
+  }
+
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    z-index: 5;
+  }
+
+  .carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .prev { left: 12px; }
+  .next { right: 12px; }
+
+  .photo-meta {
+    text-align: center;
+    padding: 10px;
+    color: #ddd;
+    font-size: 0.95rem;
+  }
+
+  .download-wrap {
+    text-align: center;
+    padding: 15px;
+  }
+
+  .download-btn {
+    display: inline-block;
+    background: #fff;
+    color: #111;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin: 5px;
+    transition: opacity 0.2s ease;
+  }
+
+  .download-btn:hover {
+    opacity: 0.85;
+  }
+
+  .thumbnail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .thumbnail {
+    border: 2px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #222;
+    cursor: pointer;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    content-visibility: auto;
+    contain-intrinsic-size: 110px;
+  }
+
+  .thumbnail.active {
+    border-color: #fff;
+  }
+
+  .thumbnail:hover {
+    border-color: #bbb;
+  }
+
+  .thumbnail img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    display: block;
+    background: #1b1b1b;
+  }
+
+  @media (max-width: 768px) {
     .main-image-wrap {
-      width: 100%;
-      height: 650px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-      position: relative;
-    }
-
-    #mainPhoto {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      display: block;
-      background: #000;
-      opacity: 1;
-      transition: opacity 0.15s ease;
-    }
-
-    #mainPhoto.loading {
-      opacity: 0.35;
-    }
-
-    .loading-text {
-      position: absolute;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.55);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      display: none;
-    }
-
-    .loading-text.show {
-      display: block;
+      height: 380px;
     }
 
     .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.45);
-      color: #fff;
-      border: none;
-      font-size: 2rem;
-      padding: 10px 16px;
-      cursor: pointer;
-      border-radius: 6px;
-      z-index: 5;
-    }
-
-    .carousel-btn:hover {
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    .prev { left: 12px; }
-    .next { right: 12px; }
-
-    .photo-meta {
-      text-align: center;
-      padding: 10px;
-      color: #ddd;
-      font-size: 0.95rem;
-    }
-
-    .download-wrap {
-      text-align: center;
-      padding: 15px;
-    }
-
-    .download-btn {
-      display: inline-block;
-      background: #fff;
-      color: #111;
-      text-decoration: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: bold;
-      margin: 5px;
-      transition: opacity 0.2s ease;
-    }
-
-    .download-btn:hover {
-      opacity: 0.85;
-    }
-
-    .thumbnail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
-    }
-
-    .thumbnail {
-      border: 2px solid transparent;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #222;
-      cursor: pointer;
-      padding: 0;
-      appearance: none;
-      -webkit-appearance: none;
-      content-visibility: auto;
-      contain-intrinsic-size: 110px;
-    }
-
-    .thumbnail.active {
-      border-color: #fff;
-    }
-
-    .thumbnail:hover {
-      border-color: #bbb;
+      font-size: 1.5rem;
+      padding: 8px 12px;
     }
 
     .thumbnail img {
-      width: 100%;
-      height: 110px;
-      object-fit: cover;
-      display: block;
-      background: #1b1b1b;
+      height: 90px;
     }
+  }
+</style>
 
-    @media (max-width: 768px) {
-      .main-image-wrap {
-        height: 380px;
-      }
+<main class="page-container">
+  <h1>Photos 2026</h1>
 
-      .carousel-btn {
-        font-size: 1.5rem;
-        padding: 8px 12px;
-      }
+  <p class="note">Browse event photos from 2026.</p>
+  <p class="save-instruction">
+    To save an individual photo: open it, then right-click and choose “Save Image As...”
+  </p>
 
-      .thumbnail img {
-        height: 90px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="page-container">
-    <h1>Photos 2026</h1>
+  <div class="carousel-container" id="photoCarousel">
+    <button class="carousel-btn prev" type="button" onclick="changePhoto(-1)">&#10094;</button>
+    <button class="carousel-btn next" type="button" onclick="changePhoto(1)">&#10095;</button>
 
-    <p class="note">Browse event photos from 2026.</p>
-    <p class="save-instruction">
-      To save an individual photo: open it, then right-click and choose “Save Image As...”
-    </p>
-
-    <div class="carousel-container" id="photoCarousel">
-      <button class="carousel-btn prev" type="button" onclick="changePhoto(-1)">&#10094;</button>
-      <button class="carousel-btn next" type="button" onclick="changePhoto(1)">&#10095;</button>
-
-      <div class="main-image-wrap">
-        <img id="mainPhoto" src="" alt="Photo" decoding="async" fetchpriority="high">
-        <div id="loadingText" class="loading-text">Loading photo...</div>
-      </div>
-
-      <div id="photoCounter" class="photo-meta"></div>
-
-      <div class="download-wrap">
-        <a id="openBtn" class="download-btn" href="" target="_blank" rel="noopener">
-          Open Full Photo
-        </a>
-
-        <!-- Replace these with your actual GitHub Release asset URLs -->
-        <a class="download-btn" href="https://github.com/YOUR-USERNAME/YOUR-REPO/releases/download/photos-2026/photos-26-part1.zip">
-          Download All Photos Part 1
-        </a>
-        <a class="download-btn" href="https://github.com/YOUR-USERNAME/YOUR-REPO/releases/download/photos-2026/photos-26-part2.zip">
-          Download All Photos Part 2
-        </a>
-        <a class="download-btn" href="https://github.com/YOUR-USERNAME/YOUR-REPO/releases/download/photos-2026/photos-26-part3.zip">
-          Download All Photos Part 3
-        </a>
-      </div>
+    <div class="main-image-wrap">
+      <img id="mainPhoto" src="" alt="Photo" decoding="async" fetchpriority="high">
+      <div id="loadingText" class="loading-text">Loading photo...</div>
     </div>
 
-    <div id="thumbnails" class="thumbnail-grid"></div>
+    <div id="photoCounter" class="photo-meta"></div>
+
+    <div class="download-wrap">
+      <a id="openBtn" class="download-btn" href="" target="_blank" rel="noopener noreferrer">
+        Open Full Photo
+      </a>
+    </div>
   </div>
 
-  <script>
-    const totalPhotos = 1515;
-    const photos = [];
-    const thumbs = [];
+  <div id="thumbnails" class="thumbnail-grid"></div>
+</main>
 
-    for (let i = 1; i <= totalPhotos; i++) {
-      photos.push(`photos-26-web/photo${i}.jpg`);
-      thumbs.push(`photos-26-thumbs/photo${i}.jpg`);
-    }
+<script>
+  const totalPhotos = 1515;
+  const photos = [];
+  const thumbs = [];
 
-    const mainPhoto = document.getElementById("mainPhoto");
-    const thumbnails = document.getElementById("thumbnails");
-    const photoCounter = document.getElementById("photoCounter");
-    const openBtn = document.getElementById("openBtn");
-    const photoCarousel = document.getElementById("photoCarousel");
-    const loadingText = document.getElementById("loadingText");
+  for (let i = 1; i <= totalPhotos; i++) {
+    photos.push(`photos-26-web/photo${i}.jpg`);
+    thumbs.push(`photos-26-thumbs/photo${i}.jpg`);
+  }
 
-    let currentIndex = 0;
-    let currentLoadToken = 0;
+  const mainPhoto = document.getElementById("mainPhoto");
+  const thumbnails = document.getElementById("thumbnails");
+  const photoCounter = document.getElementById("photoCounter");
+  const openBtn = document.getElementById("openBtn");
+  const photoCarousel = document.getElementById("photoCarousel");
+  const loadingText = document.getElementById("loadingText");
 
-    function updateActiveThumbnail(index) {
-      const active = document.querySelector(".thumbnail.active");
-      if (active) active.classList.remove("active");
+  let currentIndex = 0;
+  let currentLoadToken = 0;
 
-      const nextActive = document.querySelector(`.thumbnail[data-index="${index}"]`);
-      if (nextActive) nextActive.classList.add("active");
-    }
+  function updateActiveThumbnail(index) {
+    const active = document.querySelector(".thumbnail.active");
+    if (active) active.classList.remove("active");
 
-    function preloadNeighbor(index) {
-      const neighbor = new Image();
-      neighbor.decoding = "async";
-      neighbor.src = photos[index];
-    }
+    const nextActive = document.querySelector(`.thumbnail[data-index="${index}"]`);
+    if (nextActive) nextActive.classList.add("active");
+  }
 
-    function showPhoto(index) {
-      if (index < 0) index = photos.length - 1;
-      if (index >= photos.length) index = 0;
+  function showPhoto(index) {
+    if (index < 0) index = photos.length - 1;
+    if (index >= photos.length) index = 0;
 
-      currentIndex = index;
-      const src = photos[index];
-      const loadToken = ++currentLoadToken;
+    currentIndex = index;
+    const src = photos[index];
+    const loadToken = ++currentLoadToken;
 
-      mainPhoto.classList.add("loading");
-      loadingText.classList.add("show");
+    mainPhoto.classList.add("loading");
+    loadingText.classList.add("show");
 
-      const img = new Image();
+    const img = new Image();
+    img.decoding = "async";
+
+    img.onload = () => {
+      if (loadToken !== currentLoadToken) return;
+
+      mainPhoto.src = src;
+      mainPhoto.alt = `Photo ${index + 1}`;
+      mainPhoto.classList.remove("loading");
+      loadingText.classList.remove("show");
+    };
+
+    img.onerror = () => {
+      if (loadToken !== currentLoadToken) return;
+      mainPhoto.classList.remove("loading");
+      loadingText.classList.remove("show");
+      console.error(`Could not load ${src}`);
+    };
+
+    img.src = src;
+
+    photoCounter.textContent = `Photo ${index + 1} of ${photos.length}`;
+    openBtn.href = src;
+    updateActiveThumbnail(index);
+  }
+
+  function changePhoto(direction) {
+    showPhoto(currentIndex + direction);
+  }
+
+  function buildThumbnails() {
+    const fragment = document.createDocumentFragment();
+
+    for (let index = 0; index < thumbs.length; index++) {
+      const button = document.createElement("button");
+      button.className = "thumbnail";
+      button.type = "button";
+      button.dataset.index = index;
+      button.setAttribute("aria-label", `Show photo ${index + 1}`);
+
+      const img = document.createElement("img");
+      img.src = thumbs[index];
+      img.alt = `Thumbnail ${index + 1}`;
+      img.loading = "lazy";
       img.decoding = "async";
+      img.fetchPriority = "low";
 
-      img.onload = () => {
-        if (loadToken !== currentLoadToken) return;
+      button.appendChild(img);
 
-        mainPhoto.src = src;
-        mainPhoto.alt = `Photo ${index + 1}`;
-        mainPhoto.classList.remove("loading");
-        loadingText.classList.remove("show");
-      };
-
-      img.onerror = () => {
-        if (loadToken !== currentLoadToken) return;
-        mainPhoto.classList.remove("loading");
-        loadingText.classList.remove("show");
-        console.error(`Could not load ${src}`);
-      };
-
-      img.src = src;
-
-      photoCounter.textContent = `Photo ${index + 1} of ${photos.length}`;
-      openBtn.href = src;
-      updateActiveThumbnail(index);
-
-      preloadNeighbor(photos[(index + 1) % photos.length] ? (index + 1) % photos.length : 0);
-    }
-
-    function changePhoto(direction) {
-      showPhoto(currentIndex + direction);
-    }
-
-    function buildThumbnails() {
-      const fragment = document.createDocumentFragment();
-
-      for (let index = 0; index < thumbs.length; index++) {
-        const button = document.createElement("button");
-        button.className = "thumbnail";
-        button.type = "button";
-        button.dataset.index = index;
-        button.setAttribute("aria-label", `Show photo ${index + 1}`);
-
-        const img = document.createElement("img");
-        img.src = thumbs[index];
-        img.alt = `Thumbnail ${index + 1}`;
-        img.loading = "lazy";
-        img.decoding = "async";
-        img.fetchPriority = "low";
-
-        button.appendChild(img);
-
-        button.addEventListener("click", () => {
-          showPhoto(index);
-          photoCarousel.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
+      button.addEventListener("click", () => {
+        showPhoto(index);
+        photoCarousel.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
         });
+      });
 
-        fragment.appendChild(button);
-      }
-
-      thumbnails.innerHTML = "";
-      thumbnails.appendChild(fragment);
+      fragment.appendChild(button);
     }
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowLeft") changePhoto(-1);
-      if (event.key === "ArrowRight") changePhoto(1);
-    });
+    thumbnails.innerHTML = "";
+    thumbnails.appendChild(fragment);
+  }
 
-    buildThumbnails();
-    showPhoto(0);
-  </script>
-</body>
-</html>
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") changePhoto(-1);
+    if (event.key === "ArrowRight") changePhoto(1);
+  });
+
+  buildThumbnails();
+  showPhoto(0);
+</script>
+
+{% include foot.html %}
